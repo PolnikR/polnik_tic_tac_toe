@@ -12,7 +12,6 @@ namespace polnik_tic_tac_toe
         int arraySize;
         char[,] arr2D;
 
-
         public Game(int arraySize)
         {
             this.arraySize = arraySize;
