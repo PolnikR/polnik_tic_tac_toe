@@ -16,6 +16,7 @@ namespace polnik_tic_tac_toe
         {
             this.arraySize = arraySize;
             arr2D = new char[arraySize, arraySize];
+
             for (int i = 0; i < arr2D.GetLength(0); i++)
             {
                 for (int j = 0; j < arr2D.GetLength(1); j++)
@@ -28,12 +29,16 @@ namespace polnik_tic_tac_toe
 
         public void PrintBoard()
         {
+            Console.Write("  0 1 2");
             for (int i = 0; i < arr2D.GetLength(0); i++)
             {
+                
                 Console.WriteLine();
+                Console.Write(i + " ");
                 for (int j = 0; j < arr2D.GetLength(1); j++)
                 {
-                    Console.Write(arr2D[i, j]);
+                    
+                    Console.Write(arr2D[i, j] + " ");
                 }
             }
             Console.WriteLine();
