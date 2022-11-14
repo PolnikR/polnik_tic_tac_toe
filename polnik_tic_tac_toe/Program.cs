@@ -37,11 +37,12 @@ namespace polnik_tic_tac_toe
             Game game = new Game(3);
 
 
-            while (game.IsGameOver() == 2)
+            while (game.IsGameOver(game.Array2D) == 2)
             {
-                game.Pc_Input();
+                List<int> list = game.findBestMove(game.Array2D);
+                game.Pc_Input(list[0], list[1]);
                 game.PrintBoard();
-                if (game.IsGameOver() == -1)
+                if (game.IsGameOver(game.Array2D) == -1)
                 {
                     Console.WriteLine("Vyhral PC");
                     break;
@@ -49,7 +50,7 @@ namespace polnik_tic_tac_toe
 
                 game.User_Input();
                 game.PrintBoard();
-                if (game.IsGameOver() == 1)
+                if (game.IsGameOver(game.Array2D) == 1)
                 {
                     Console.WriteLine("Vyhral srac");
                     break;

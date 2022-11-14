@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -69,20 +70,20 @@ namespace polnik_tic_tac_toe
             return true;
         }
 
-        public void Pc_Input()
+        public void Pc_Input(int x, int y)
         { 
-            Random random = new Random();
+            //Random random = new Random();
 
-            int x = random.Next(0,ArraySize);
-            int y = random.Next(0, ArraySize);
-            while (!Is_Input_Valid(x, y))
-            {
-                int a = random.Next(0, ArraySize);
-                int b = random.Next(0, ArraySize);
+            //int x = random.Next(0,ArraySize);
+            //int y = random.Next(0, ArraySize);
+            //while (!Is_Input_Valid(x, y))
+            //{
+            //    int a = random.Next(0, ArraySize);
+            //    int b = random.Next(0, ArraySize);
 
-                x = a;
-                y = b;
-            }
+            //    x = a;
+            //    y = b;
+            //}
             if (Is_Input_Valid(x, y)) Array2D[x, y] = 'O';
         }
         public void User_Input()
@@ -113,14 +114,14 @@ namespace polnik_tic_tac_toe
             }
         }
 
-        public int IsGameOver()
+        public  int IsGameOver(char[,]board)
         {
             //kontola riadkov
             List<char> riadok = new List<char>();
             List<char> stlpec = new List<char>();
             List<char> uhlopriecka1 = new List<char>();
             List<char> uhlopriecka2 = new List<char>();
-            for (int i = 0; i < Array2D.GetLength(0); i++)
+            for (int i = 0; i < board.GetLength(0); i++)
             {
                 int pocetRX=0;
                 int pocetRO=0;
@@ -129,11 +130,11 @@ namespace polnik_tic_tac_toe
                 int pocetSO = 0;
                 riadok.Clear();
                 stlpec.Clear();
-                for (int j = 0; j < Array2D.GetLength(1); j++)
+                for (int j = 0; j < board.GetLength(1); j++)
                 {
                     //riadky
-                    riadok.Add(Array2D[i, j]);
-                    stlpec.Add(Array2D[j, i]);
+                    riadok.Add(board[i, j]);
+                    stlpec.Add(board[j, i]);
                 }
                 pocetRX = riadok.Count(s => s == 'X');
                 pocetRO = riadok.Count(s => s == 'O');
@@ -141,27 +142,27 @@ namespace polnik_tic_tac_toe
                 pocetSX = stlpec.Count(s => s == 'X');
                 pocetSO = stlpec.Count(s => s == 'O');
 
-                if (pocetRX == ArraySize ||  pocetSX == ArraySize)
+                if (pocetRX == board.GetLength(0) ||  pocetSX == board.GetLength(0))
                 {
                     return 1;
                 }
-                if (pocetRO == ArraySize || pocetSO == ArraySize) return -1;
+                if (pocetRO == board.GetLength(0) || pocetSO == board.GetLength(0)) return -1;
             }
             int u1 = 0;
             int u2 = 2;
-            for (int a = 0; a < Array2D.GetLength(0); a++)
+            for (int a = 0; a < board.GetLength(0); a++)
             {
-                uhlopriecka1.Add(Array2D[a, a]);
-                uhlopriecka2.Add(Array2D[u1, u2]);
+                uhlopriecka1.Add(board[a, a]);
+                uhlopriecka2.Add(board[u1, u2]);
                 u1++;
                 u2--;
             }
 
-            if(uhlopriecka1.Count(s=>s=='X') == ArraySize || uhlopriecka2.Count(s => s == 'X') == ArraySize)
+            if(uhlopriecka1.Count(s=>s=='X') == board.GetLength(0) || uhlopriecka2.Count(s => s == 'X') == board.GetLength(0))
             {
                 return 1;
             }
-            if (uhlopriecka1.Count(s => s == 'O') == ArraySize || uhlopriecka1.Count(s => s == 'O') == ArraySize)
+            if (uhlopriecka1.Count(s => s == 'O') == board.GetLength(0) || uhlopriecka1.Count(s => s == 'O') == board.GetLength(0))
             {
                 return -1;
             }
@@ -169,6 +170,112 @@ namespace polnik_tic_tac_toe
             return 2;
 
         }
+
+        static bool isMoveLeft(char[,] board)
+        {
+            for (int i = 0; i < 3; i++)
+                for (int j = 0; j < 3; j++)
+                    if (board[i, j] == '-')
+                        return true;
+            return false;
+        }
+
+        public int minMax(char[,] board, int depth, Boolean isMax)
+        {
+            int score = IsGameOver(board);
+
+            if (score == 1) return score;
+
+            if (score == -1) return score;
+
+            if (isMoveLeft(board) == false) return 0;
+
+            if (isMax)
+            {
+                int best = -1000;
+
+                for (int i = 0; i < 3; i++)
+                {
+
+                    for (int j = 0; j < 3; j++)
+                    {
+                        if (board[i, j] == '-')
+                        {
+                            board[i, j] = 'X';
+
+                            best = Math.Max(best, minMax(board, depth + 1, !isMax));
+
+                            board[i, j] = '-';
+                        }
+                    }
+                }
+                return best;
+
+
+
+            }
+
+            else
+            { 
+                int best = 1000;
+
+                for (int i = 0; i < 3; i++)
+                {
+
+                    for (int j = 0; j < 3; j++)
+                    {
+                        if (board[i, j] == '-')
+                        {
+                            board[i, j] = 'O';
+
+                            best = Math.Min(best, minMax(board, depth + 1, !isMax));
+
+                            board[i, j] = '-';
+                        }
+                    }
+                }
+                return best;
+
+            }
+        }
+
+        public List<int> findBestMove(char[,]board )
+        {
+            int bestVal = -1000;
+            int x = -1;
+            int y = -1;
+            List<int> list = new List<int>();   
+
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 3; j++)
+                {
+                    if (board[i, j] == '-')
+                    {
+                        board[i, j] = 'X';
+
+                        int moveVal = minMax(board, 0, false);
+
+                        board[i, j] = '-';
+
+                        if (moveVal > bestVal)
+                        {
+                            x = i;
+                            y = j;  
+
+                            bestVal = moveVal;
+                        }
+                    }
+                }
+            }
+
+            list.Add(x);
+            list.Add(y);
+            return list;
+        }
+
+
 
 
     }
