@@ -10,7 +10,8 @@ namespace polnik_tic_tac_toe
     internal class Game
     {
         private int arraySize;
-        private char[,] arr2D;
+        private char[,] arr2D; 
+
 
         public int ArraySize
         {
