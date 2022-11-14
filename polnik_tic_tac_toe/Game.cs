@@ -9,36 +9,52 @@ namespace polnik_tic_tac_toe
 {
     internal class Game
     {
-        int arraySize;
-        char[,] arr2D;
+        private int arraySize;
+        private char[,] arr2D;
+
+        public int ArraySize
+        {
+            get { return arraySize; }
+            set { arraySize = value; }
+        }
+
+        public char[,] Array2D
+        {
+            get { return arr2D; }
+            set { arr2D=value; }
+        }
 
         public Game(int arraySize)
         {
-            this.arraySize = arraySize;
-            arr2D = new char[arraySize, arraySize];
+            this.ArraySize = arraySize;
+            Array2D = new char[ArraySize, ArraySize];
 
-            for (int i = 0; i < arr2D.GetLength(0); i++)
+            for (int i = 0; i < Array2D.GetLength(0); i++)
             {
-                for (int j = 0; j < arr2D.GetLength(1); j++)
+                for (int j = 0; j < Array2D.GetLength(1); j++)
                 {
-                    arr2D[i, j] = '-';
+                    Array2D[i, j] = '-';
                 }
             }
 
         }
 
         public void PrintBoard()
-        {
-            Console.Write("  0 1 2");
-            for (int i = 0; i < arr2D.GetLength(0); i++)
+        {   
+            Console.Write(" ");
+            for (int a = 0; a < Array2D.GetLength(0); a++)
+            {
+                Console.Write($" {a}");
+            }
+            for (int i = 0; i < Array2D.GetLength(0); i++)
             {
                 
                 Console.WriteLine();
                 Console.Write(i + " ");
-                for (int j = 0; j < arr2D.GetLength(1); j++)
+                for (int j = 0; j < Array2D.GetLength(1); j++)
                 {
                     
-                    Console.Write(arr2D[i, j] + " ");
+                    Console.Write(Array2D[i, j] + " ");
                 }
             }
             Console.WriteLine();
@@ -47,8 +63,8 @@ namespace polnik_tic_tac_toe
 
         public bool Is_Input_Valid(int x, int y)
         {
-            if (x >arraySize || x<0 || y>arraySize || y<0) return false;
-            if (arr2D[x,y] == 'X' || arr2D[x,y]=='O') return false;
+            if (x >ArraySize || x<0 || y>ArraySize || y<0) return false;
+            if (Array2D[x,y] == 'X' || Array2D[x,y]=='O') return false;
             return true;
         }
 
@@ -56,17 +72,17 @@ namespace polnik_tic_tac_toe
         { 
             Random random = new Random();
 
-            int x = random.Next(0,arraySize);
-            int y = random.Next(0, arraySize);
+            int x = random.Next(0,ArraySize);
+            int y = random.Next(0, ArraySize);
             while (!Is_Input_Valid(x, y))
             {
-                int a = random.Next(0, arraySize);
-                int b = random.Next(0, arraySize);
+                int a = random.Next(0, ArraySize);
+                int b = random.Next(0, ArraySize);
 
                 x = a;
                 y = b;
             }
-            if (Is_Input_Valid(x, y)) arr2D[x, y] = 'O';
+            if (Is_Input_Valid(x, y)) Array2D[x, y] = 'O';
         }
         public void User_Input()
         {
@@ -87,7 +103,7 @@ namespace polnik_tic_tac_toe
                     x = a;
                     y = b;
                 }
-                if(Is_Input_Valid(x,y)) arr2D[x, y] = 'X';
+                if(Is_Input_Valid(x,y)) Array2D[x, y] = 'X';
             }
             catch 
             {
@@ -103,7 +119,7 @@ namespace polnik_tic_tac_toe
             List<char> stlpec = new List<char>();
             List<char> uhlopriecka1 = new List<char>();
             List<char> uhlopriecka2 = new List<char>();
-            for (int i = 0; i < arr2D.GetLength(0); i++)
+            for (int i = 0; i < Array2D.GetLength(0); i++)
             {
                 int pocetRX=0;
                 int pocetRO=0;
@@ -112,11 +128,11 @@ namespace polnik_tic_tac_toe
                 int pocetSO = 0;
                 riadok.Clear();
                 stlpec.Clear();
-                for (int j = 0; j < arr2D.GetLength(1); j++)
+                for (int j = 0; j < Array2D.GetLength(1); j++)
                 {
                     //riadky
-                    riadok.Add(arr2D[i, j]);
-                    stlpec.Add(arr2D[j, i]);
+                    riadok.Add(Array2D[i, j]);
+                    stlpec.Add(Array2D[j, i]);
                 }
                 pocetRX = riadok.Count(s => s == 'X');
                 pocetRO = riadok.Count(s => s == 'O');
@@ -124,27 +140,27 @@ namespace polnik_tic_tac_toe
                 pocetSX = stlpec.Count(s => s == 'X');
                 pocetSO = stlpec.Count(s => s == 'O');
 
-                if (pocetRX == arraySize ||  pocetSX == arraySize)
+                if (pocetRX == ArraySize ||  pocetSX == ArraySize)
                 {
                     return 1;
                 }
-                if (pocetRO == arraySize || pocetSO == arraySize) return -1;
+                if (pocetRO == ArraySize || pocetSO == ArraySize) return -1;
             }
             int u1 = 0;
             int u2 = 2;
-            for (int a = 0; a < arr2D.GetLength(0); a++)
+            for (int a = 0; a < Array2D.GetLength(0); a++)
             {
-                uhlopriecka1.Add(arr2D[a, a]);
-                uhlopriecka2.Add(arr2D[u1, u2]);
+                uhlopriecka1.Add(Array2D[a, a]);
+                uhlopriecka2.Add(Array2D[u1, u2]);
                 u1++;
                 u2--;
             }
 
-            if(uhlopriecka1.Count(s=>s=='X') == arraySize || uhlopriecka2.Count(s => s == 'X') == arraySize)
+            if(uhlopriecka1.Count(s=>s=='X') == ArraySize || uhlopriecka2.Count(s => s == 'X') == ArraySize)
             {
                 return 1;
             }
-            if (uhlopriecka1.Count(s => s == 'O') == arraySize || uhlopriecka1.Count(s => s == 'O') == arraySize)
+            if (uhlopriecka1.Count(s => s == 'O') == ArraySize || uhlopriecka1.Count(s => s == 'O') == ArraySize)
             {
                 return -1;
             }

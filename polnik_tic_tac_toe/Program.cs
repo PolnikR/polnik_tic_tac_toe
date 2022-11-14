@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace polnik_tic_tac_toe
 {
-    internal class Program
-    {
-         /*
+    /*
          * Project name : Eset coding challange Tic Tac Toe
          * Author       : Roman Polník
          * Phone Number : +421 907 474 723
@@ -21,13 +20,20 @@ namespace polnik_tic_tac_toe
          * 
          * Vytvorím triedu Game;
          * Inicializujem velkos pola
-         * vytvorim pole
-         * vytvorim funkciu pre vypisanie pola 
-         * Potrebujem funkciu , ktore overy spravnost vstupov a zapise hraci znak do pola 
-         * Potrebujem vytvorit funkciu , ktora bude kontolovat stav hracej plochy
+         * Na vstupe sa pytam hraca , ake velke ma byt pole 
+         * Po zadaní vstupu od uzivatela, vytvorim funkciu pre vypisanie pola 
+         * Potrebujem funkciu , ktore overy spravnost vstupov od uzivatela alebo do PC - Is_inputValid()
+         * po overerení vstupu, zapise vstup od PC/uzivatela do pola - User_Input(), PC_Input() 
+         * Po zapise znaku od Uzivatela/Pc skontrolujem , ci hra pokracuje , alebo ma vitaza
          */
+    internal class Program
+    {
+        
         static void Main(string[] args)
         {
+
+
+
             Game game = new Game(3);
 
 
@@ -49,26 +55,14 @@ namespace polnik_tic_tac_toe
                     break;
                 }
 
-
-
-
             }
 
             Console.ReadLine();
 
 
 
-
-
-
-
-
-
-
-
-
-
         }
+
 
     }
 }
